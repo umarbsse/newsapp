@@ -69,31 +69,26 @@ export class News extends Component {
       },]
     constructor(){
         super();
-        console.log("constructor called");
         this.state = {
             articles: this.articles,
             loading:false
         }
     }
     async componentDidMount(){
-      //console.log("constructor called");
-      console.log("componentDidMount")
-      /*let url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=4716a90912154398a14326ee246e9f71';
+      let url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=4716a90912154398a14326ee246e9f71';
       let data = await fetch(url);
       let parsedData =await data.json()
-      //console.log(parsedData)
+      console.log(parsedData.articles)
       this.setState({articles: parsedData.articles})
-      */
     }
   render() {
-    //console.log("render")
     return (
       <div className='container my-3'>
         <h2>NewsMonkey - Top Headline</h2>
         <div className="row">
             {this.state.articles.map((element, index)=>{
               return   <div className="col-md-4" key={index} >
-                <NewsItem title={element.title.slice(0,45)} descripition={element.description.slice(0,88)}  newsUrl={element.url} urlToImage={element.urlToImage}/>
+                <NewsItem title={element.title?element.title.slice(0,45):""} descripition={element.description?element.description.slice(0,88):""}  newsUrl={element.url} urlToImage={!element.urlToImage?"https://assets.v3.snowfirehub.com/images/120888/499_o_.he-best-image-format-for-the-web-3-quick-SEO-tips-":element.urlToImage}/>
                 </div>
             })}    
         </div>
