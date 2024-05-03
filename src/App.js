@@ -2,13 +2,16 @@
 import './App.css';
 
 import React, { Component } from 'react'
+import Navbar from './components/Navbar';
+import News from './components/News';
 
 export default class App extends Component {
-  a= 'this is a';
+  a= 'John';
   render() {
     return (
       <div>
-        Hello my first calss baed component {this.a}
+        <Navbar/>
+        <News/>
       </div>
     )
   }
