@@ -65,7 +65,7 @@ export class News extends Component {
         <div className="row">
             {!this.state.loading && this.state.articles.map((element, index)=>{
               return   <div className="col-md-4" key={index} >
-                <NewsItem title={element.title?element.title.slice(0,45):""} descripition={element.description?element.description.slice(0,88):""}  newsUrl={element.url} urlToImage={!element.urlToImage?"https://assets.v3.snowfirehub.com/images/120888/499_o_.he-best-image-format-for-the-web-3-quick-SEO-tips-":element.urlToImage}/>
+                <NewsItem title={element.title?element.title.slice(0,45):""} source={element.source.name}  publishedAt={element.publishedAt?element.publishedAt:""}  author={element.author?element.author:"Unknown"} descripition={element.description?element.description.slice(0,88):""}  newsUrl={element.url} urlToImage={!element.urlToImage?"https://assets.v3.snowfirehub.com/images/120888/499_o_.he-best-image-format-for-the-web-3-quick-SEO-tips-":element.urlToImage}/>
                 </div>
             })}    
         </div>
