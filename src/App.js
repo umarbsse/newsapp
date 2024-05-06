@@ -9,7 +9,7 @@ import{BrowserRouter,
   Route,
   }from "react-router-dom";
 export default class App extends Component {
-  pageSize=10;
+  pageSize=15;
   render() {
     return (
       
