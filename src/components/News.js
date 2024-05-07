@@ -20,7 +20,7 @@ export class News extends Component {
     super(props);
     this.state = {
       articles: [],
-      loading: false,
+      loading: true,
       page: 1,
       totalResults: 0,
     };
@@ -55,34 +55,31 @@ export class News extends Component {
     this.updateNews();
   };
   fetchMoreData = async() => {
-    this.setState({page:this.state.page+1})
-
-      
+    this.setState({page:this.state.page+ 1 })
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
+    //this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
       articles: this.state.articles.concat(parsedData.articles),
-      totalResults: parsedData.totalResults,
-      loading: false,
+      totalResults: parsedData.totalResults
     });
 
   };
   render() {
     return (
-      <div className="container my-3">
+      <>
         <h1 className="text-center" style={{ margin: "35px 0px" }}>
           NewsMonkey - Top {this.capitilizeFirstLetter(this.props.category)} Headlines
         </h1>
-        {/*this.state.loading && <Spinner />*/}
+        {this.state.loading && <Spinner />}
           
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
-          hasMore={this.state.articles.length!==this.state.totalResults}
+          hasMore={this.state.articles.length<=this.state.totalResults}
           loader={<Spinner />} >
-          <div className="row">
+          <div className="container row">
           {this.state.articles.map((element, index) => {
               return (
                 <div className="col-md-4" key={index}>
@@ -108,7 +105,7 @@ export class News extends Component {
             })}    
             </div>
         </InfiniteScroll>
-      </div>
+      </>
     );
   }
 }
