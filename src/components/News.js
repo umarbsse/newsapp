@@ -30,16 +30,19 @@ export class News extends Component {
   capitilizeFirstLetter = (string) => {
     return string.slice(0, 1).toUpperCase() + string.slice(1, string.length);
   }
-  async updateNews() {
-    this.props.setProgress(20);
-    //this.setState({ loading: true });
+  async updateNews(props) {
+    //console.log("update news called")
+    this.props.setProgress(10);
+    this.setState({ loading: true });
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     
-    console.log(this.state.articles.length)
-    console.log(this.state.totalResults)
-    console.log(url)
+    //console.log(this.state.articles.length)
+    //console.log(this.state.totalResults)
+    //console.log(url)
     let data = await fetch(url);
+    this.props.setProgress(30);
     let parsedData = await data.json();
+    this.props.setProgress(70);
     this.setState({
       articles: parsedData.articles,
       totalResults: parsedData.totalResults,
@@ -48,25 +51,25 @@ export class News extends Component {
     });
     this.props.setProgress(100);
   }
-  async componentDidMount() {
+  async componentDidMount(props) {
     this.updateNews();
   }
   handleNextClick = async () => {
-    console.log("next button called");
+    //console.log("next button called");
     this.setState({ page: this.state.page + 1 });
     this.updateNews();
   };
   handlePrevClick = async () => {
-    console.log("handlePrevClick");
+    //console.log("handlePrevClick");
     this.setState({ page: this.state.page - 1 });
     this.updateNews();
   };
   fetchMoreData = async() => {
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     
-    console.log(this.state.articles.length)
-    console.log(this.state.totalResults)
-    console.log(url)
+    //console.log(this.state.articles.length)
+    //console.log(this.state.totalResults)
+    //console.log(url)
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
@@ -87,7 +90,7 @@ export class News extends Component {
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
-          hasMore={this.state.articles.length<=this.state.totalResults}
+          hasMore={this.state.articles.length!==this.state.totalResults}
           loader={<Spinner />} >
           <div className="container row">
           {this.state.articles.map((element, index) => {

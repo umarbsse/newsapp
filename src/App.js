@@ -15,7 +15,7 @@ export default class App extends Component {
     progress:0
   }
   setProgress = (progress)=>{
-    this.setState({progress:this.state.progress})
+    this.setState({progress:progress})
   }
   render() {
     return (
@@ -23,7 +23,7 @@ export default class App extends Component {
     <>
     <BrowserRouter>
       <Navbar/>
-        <LoadingBar color='#f11946' progress={this.state.progress}/>
+        <LoadingBar height={3} color='#f11946' progress={this.state.progress}/>
          <Routes>
           <Route path="/" element={<News setProgress={this.setProgress} key="general" pageSize={this.pageSize} country="us" category="general" />} />
           <Route path="/business" element={<News setProgress={this.setProgress} key="business" pageSize={this.pageSize} country="us" category="business" />} />
