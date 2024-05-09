@@ -23,7 +23,7 @@ export default class App extends Component {
     <>
     <BrowserRouter>
       <Navbar/>
-        <LoadingBar color='#f11946' progress={this.state.progress}/>
+        <LoadingBar color='#f11946' height={20} progress={10}/>
          <Routes>
           <Route path="/" element={<News setProgress={this.setProgress} key="general" pageSize={this.pageSize} country="us" category="general" />} />
           <Route path="/business" element={<News setProgress={this.setProgress} key="business" pageSize={this.pageSize} country="us" category="business" />} />

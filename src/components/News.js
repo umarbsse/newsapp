@@ -31,7 +31,8 @@ export class News extends Component {
     return string.slice(0, 1).toUpperCase() + string.slice(1, string.length);
   }
   async updateNews() {
-    this.props.setProgress(20);
+    console.log(this.props)
+    this.props.setProgress(100);
     //this.setState({ loading: true });
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     
@@ -46,7 +47,7 @@ export class News extends Component {
       page: this.state.page + 1,
       loading: false,
     });
-    this.props.setProgress(100);
+    //this.props.setProgress(100);
   }
   async componentDidMount() {
     this.updateNews();
@@ -87,33 +88,35 @@ export class News extends Component {
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
-          hasMore={this.state.articles.length<=this.state.totalResults}
+          hasMore={this.state.articles.length!==this.state.totalResults}
           loader={<Spinner />} >
-          <div className="container row">
-          {this.state.articles.map((element, index) => {
+          <div className="container">
+            <div className="row">
+            {this.state.articles.map((element, index) => {
               return (
-                <div className="col-md-4" key={index}>
-                  <NewsItem
-                    title={element.title ? element.title.slice(0, 45) : ""}
-                    source={element.source.name}
-                    publishedAt={element.publishedAt ? element.publishedAt : ""}
-                    author={element.author ? element.author : "Unknown"}
-                    descripition={
-                      element.description
-                        ? element.description.slice(0, 88)
-                        : ""
-                    }
-                    newsUrl={element.url}
-                    urlToImage={
-                      !element.urlToImage
-                        ? "https://assets.v3.snowfirehub.com/images/120888/499_o_.he-best-image-format-for-the-web-3-quick-SEO-tips-"
-                        : element.urlToImage
-                    }
-                  />
-                </div>
+                  <div className="col-md-4" key={index}>
+                    <NewsItem
+                      title={element.title ? element.title.slice(0, 45) : ""}
+                      source={element.source.name}
+                      publishedAt={element.publishedAt ? element.publishedAt : ""}
+                      author={element.author ? element.author : "Unknown"}
+                      descripition={
+                        element.description
+                          ? element.description.slice(0, 88)
+                          : ""
+                      }
+                      newsUrl={element.url}
+                      urlToImage={
+                        !element.urlToImage
+                          ? "https://assets.v3.snowfirehub.com/images/120888/499_o_.he-best-image-format-for-the-web-3-quick-SEO-tips-"
+                          : element.urlToImage
+                      }
+                    />
+                  </div>
               );
             })}    
             </div>
+          </div>
         </InfiniteScroll>
       </>
     );
