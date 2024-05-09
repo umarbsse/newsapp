@@ -31,8 +31,7 @@ export class News extends Component {
     return string.slice(0, 1).toUpperCase() + string.slice(1, string.length);
   }
   async updateNews() {
-    console.log(this.props)
-    this.props.setProgress(100);
+    this.props.setProgress(20);
     //this.setState({ loading: true });
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     
@@ -40,7 +39,9 @@ export class News extends Component {
     console.log(this.state.totalResults)
     console.log(url)
     let data = await fetch(url);
+    this.props.setProgress(30);
     let parsedData = await data.json();
+    this.props.setProgress(70);
     this.setState({
       articles: parsedData.articles,
       totalResults: parsedData.totalResults,
@@ -53,21 +54,15 @@ export class News extends Component {
     this.updateNews();
   }
   handleNextClick = async () => {
-    console.log("next button called");
     this.setState({ page: this.state.page + 1 });
     this.updateNews();
   };
   handlePrevClick = async () => {
-    console.log("handlePrevClick");
     this.setState({ page: this.state.page - 1 });
     this.updateNews();
   };
   fetchMoreData = async() => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    
-    console.log(this.state.articles.length)
-    console.log(this.state.totalResults)
-    console.log(url)
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
@@ -90,9 +85,8 @@ export class News extends Component {
           next={this.fetchMoreData}
           hasMore={this.state.articles.length!==this.state.totalResults}
           loader={<Spinner />} >
-          <div className="container">
-            <div className="row">
-            {this.state.articles.map((element, index) => {
+          <div className="container row">
+          {this.state.articles.map((element, index) => {
               return (
                   <div className="col-md-4" key={index}>
                     <NewsItem
@@ -116,11 +110,9 @@ export class News extends Component {
               );
             })}    
             </div>
-          </div>
         </InfiniteScroll>
       </>
     );
   }
 }
-
 export default News;
