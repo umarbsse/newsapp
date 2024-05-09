@@ -36,7 +36,7 @@ const News = (props)=> {
   }
   useEffect(() => {
     updateNews();
-  });
+  },[]);
 
 
   //const handleNextClick = async () => {
