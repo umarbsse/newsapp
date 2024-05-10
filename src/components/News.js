@@ -10,7 +10,6 @@ const News = (props)=> {
   const[loading, setLoading] = useState(false)
   const[page, setPage] = useState(1)
   const[totalResults, setTotalResults] = useState(0)
-  //    document.title = `${this.capitilizeFirstLetter(props.category)} - NewsMonkey`;
   const capitilizeFirstLetter = (string) => {
     return string.slice(0, 1).toUpperCase() + string.slice(1, string.length);
   }
@@ -18,8 +17,8 @@ const News = (props)=> {
   const updateNews = async()=> {
     props.setProgress(10);
     setLoading(true)
-    //const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-    const url = 'http://localhost:3000/smaple_response.json'
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    //const url = 'http://localhost:3000/smaple_response.json'
     let data = await fetch(url);
     props.setProgress(30);
     let parsedData = await data.json();
@@ -28,12 +27,6 @@ const News = (props)=> {
     setTotalResults(parsedData.totalResults)
     setPage(page + 1)
     setLoading(false)
-    //this.setState({
-    //  articles: parsedData.articles,
-    //  totalResults: parsedData.totalResults,
-    //  page: this.state.page + 1,
-    //  loading: false,
-    //});
     props.setProgress(100);
   }
   useEffect(() => {
@@ -41,29 +34,14 @@ const News = (props)=> {
     updateNews();
     // eslint-disable-next-line
   },[]);
-
-
-  //const handleNextClick = async () => {
-  //  setPage(page + 1)
-  //  updateNews();
-  //};
-  //const handlePrevClick = async () => {
-  //  setPage(page - 1)
-  //  updateNews();
-  //};
   const fetchMoreData = async() => {
-
-
-    //const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-    const url = 'http://localhost:3000/smaple_response.json'
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    //const url = 'http://localhost:3000/smaple_response.json'
     let data = await fetch(url);
     let parsedData = await data.json();
     setArticles(articles.concat(parsedData.articles))
     setTotalResults(parsedData.totalResults)
     setPage(page + 1)
-
-
-
   };
     return (
       <>
