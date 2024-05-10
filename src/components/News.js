@@ -14,10 +14,12 @@ const News = (props)=> {
   const capitilizeFirstLetter = (string) => {
     return string.slice(0, 1).toUpperCase() + string.slice(1, string.length);
   }
+  
   const updateNews = async()=> {
     props.setProgress(10);
     setLoading(true)
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    //const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    const url = 'http://localhost:3000/smaple_response.json'
     let data = await fetch(url);
     props.setProgress(30);
     let parsedData = await data.json();
@@ -35,7 +37,9 @@ const News = (props)=> {
     props.setProgress(100);
   }
   useEffect(() => {
+    document.title = `${capitilizeFirstLetter(props.category)} - NewsMonkey`;
     updateNews();
+    // eslint-disable-next-line
   },[]);
 
 
@@ -48,16 +52,22 @@ const News = (props)=> {
   //  updateNews();
   //};
   const fetchMoreData = async() => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+
+
+    //const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    const url = 'http://localhost:3000/smaple_response.json'
     let data = await fetch(url);
     let parsedData = await data.json();
     setArticles(articles.concat(parsedData.articles))
     setTotalResults(parsedData.totalResults)
     setPage(page + 1)
+
+
+
   };
     return (
       <>
-        <h1 className="text-center" style={{ margin: "35px 0px" }}>
+        <h1 className="text-center" style={{ margin: "35px 0px", marginTop:'90px' }}>
           NewsMonkey - Top {capitilizeFirstLetter(props.category)} Headlines
         </h1>
         {loading && <Spinner />}
@@ -71,7 +81,7 @@ const News = (props)=> {
             <div className="row">
               {articles.map((element, index) => {
               return (
-                  <div className="col-md-4" key={index}>
+                    <div className="col-md-4" key={index}>
                     <NewsItem
                       title={element.title ? element.title.slice(0, 45) : ""}
                       source={element.source.name}
@@ -89,9 +99,11 @@ const News = (props)=> {
                           : element.urlToImage
                       }
                     />
-                  </div>
+                    </div>
               );
             })}    
+            </div>
+            
             </div>
         </InfiniteScroll>
       </>
